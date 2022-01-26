@@ -19,11 +19,11 @@ class Employees(models.Model):
 
 
 class EmployeesCharacteristic(models.Model):
-    characteristic_title = models.CharField(max_length=200, null=False)
+    title = models.CharField(max_length=200, null=False)
     employees = models.ManyToManyField(Employees, null=False)
 
     def __str__(self):
-        return self.characteristic_title
+        return self.title
 
 
 class EmployeesAddress(models.Model):
@@ -40,16 +40,20 @@ class Salary(models.Model):
     employees = models.ManyToManyField(Employees, null=False)
 
 
+class EmployeesInProjects(models.Model):
+    days_in_project = models.IntegerField(null=False)
+    employees = models.ManyToManyField(Employees, null=False)
+
+
 class Projects(models.Model):
     title = models.CharField(max_length=100, null=False)
     stat_date = models.DateField(null=False)
     end_date = models.DateField(null=False)
+    in_project = models.OneToOneField(EmployeesInProjects, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
 
 
-class EmployeesInProjects(models.Model):
-    days_in_project = models.IntegerField(max_length=20, null=False)
-    employees = models.ManyToManyField(Employees, null=False)
-    projects = models.ManyToManyField(Projects, null=False)
+
+
