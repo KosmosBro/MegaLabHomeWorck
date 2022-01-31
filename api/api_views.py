@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 
 from api.serializers import PositionSerializers, EmployeesSerializers, EmployeesAddressSerializers, SalarySerializers, \
     EmployeesInProjectsSerializers, ProjectSerializers, CompanySerializers, LeaderSerializers, ProductSerializers, \
@@ -38,8 +38,8 @@ class ProjectsListAPIView(viewsets.ModelViewSet):
 
 
 class CompanyListAPIView(viewsets.ModelViewSet):
-    queryset = Company.objects.all()
     serializer_class = CompanySerializers
+    queryset = Company.objects.all()
 
 
 class LeaderListAPIView(viewsets.ModelViewSet):
@@ -48,18 +48,30 @@ class LeaderListAPIView(viewsets.ModelViewSet):
 
 
 class ProductListAPIView(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
     serializer_class = ProductSerializers
+    queryset = Product.objects.filter(price__gte=20)
+
+
+# class ProductListAPIView(generics.ListAPIView):
+#     serializer_class = ProductSerializers
+#     queryset = Product.objects.all()
+#
+#     def get_queryset(self):
+#         queryset = Product.objects.all()
+#         price = self.request.query_params.get('price')
+#         if price:
+#             queryset = Product.objects.filter(price__gte=20)
+#         return queryset
 
 
 class SalesListAPIView(viewsets.ModelViewSet):
-    queryset = Sales.objects.all()
     serializer_class = SalesSerializers
+    queryset = Sales.objects.all()
 
 
 class AddressListAPIView(viewsets.ModelViewSet):
-    queryset = Address.objects.all()
     serializer_class = AddressSerializers
+    queryset = Address.objects.all()
 
 
 class PaymentAccountListAPIView(viewsets.ModelViewSet):

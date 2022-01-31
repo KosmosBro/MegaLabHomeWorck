@@ -28,7 +28,7 @@ class EmployeesCharacteristic(models.Model):
 
 class EmployeesAddress(models.Model):
     address_title = models.CharField(max_length=50)
-    number_address = models.IntegerField(max_length=10)
+    number_address = models.IntegerField()
     employees = models.OneToOneField(Employees, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -36,7 +36,7 @@ class EmployeesAddress(models.Model):
 
 
 class Salary(models.Model):
-    salary = models.IntegerField(max_length=100)
+    salary = models.IntegerField()
     employees = models.ManyToManyField(Employees)
 
     def __str__(self):
@@ -61,8 +61,17 @@ class Projects(models.Model):
         return self.title
 
 
+class Address(models.Model):
+    title = models.CharField(max_length=50, )
+    number = models.IntegerField()
+
+    def __str__(self):
+        return self.title
+
+
 class Company(models.Model):
     title = models.CharField(max_length=50, )
+    address = models.OneToOneField(Address, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -95,15 +104,6 @@ class Sales(models.Model):
 
     def __str__(self):
         return self.count
-
-
-class Address(models.Model):
-    title = models.CharField(max_length=50, )
-    number = models.IntegerField()
-    company = models.ManyToManyField(Company, )
-
-    def __str__(self):
-        return self.title
 
 
 class PaymentAccount(models.Model):
